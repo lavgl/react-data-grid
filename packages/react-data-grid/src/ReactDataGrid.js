@@ -150,6 +150,11 @@ const ReactDataGrid = React.createClass({
     return previouslySelected.rowIdx !== selected.rowIdx || previouslySelected.idx !== selected.idx || previouslySelected.active === false;
   },
 
+  deselectCells: function() {
+    console.log('deselect cells called');
+    this.setState({ selected: { rowIdx: -1, idx: -1 }});
+  },
+
   onContextMenuHide: function() {
     document.removeEventListener('click', this.onContextMenuHide);
     let newSelected = Object.assign({}, this.state.selected, {contextMenuDisplayed: false});
@@ -184,6 +189,7 @@ const ReactDataGrid = React.createClass({
       if (this.isCellWithinBounds(selected)) {
         const oldSelection = this.state.selected;
         this.setState({selected: selected}, () => {
+          console.log('selected', selected);
           if (typeof this.props.onCellDeSelected === 'function') {
             this.props.onCellDeSelected(oldSelection);
           }
@@ -193,7 +199,8 @@ const ReactDataGrid = React.createClass({
         });
       } else if (rowIdx === -1 && idx === -1) {
         // When it's outside of the grid, set rowIdx anyway
-        this.setState({selected: { idx, rowIdx }});
+        this.setState({selected: { idx, rowIdx }},
+          () => console.log('selected out of range', this.state.selected));
       }
     }
   },

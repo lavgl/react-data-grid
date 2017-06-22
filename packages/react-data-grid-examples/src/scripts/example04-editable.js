@@ -1,6 +1,22 @@
 const ReactDataGrid = require('react-data-grid');
 const exampleWrapper = require('../components/exampleWrapper');
 const React = require('react');
+import listenToClickOutside from 'react-onclickoutside';
+
+const TableWrapper = listenToClickOutside(React.createClass({
+  handleClickOutside() {
+    this.grid.deselectCells();
+  },
+
+  render: function() {
+    return (
+      <ReactDataGrid
+        ref = {ref => this.grid = ref}
+        {...this.props}
+      />
+    )
+  }
+}));
 
 const Example = React.createClass({
   getInitialState() {
@@ -42,7 +58,7 @@ const Example = React.createClass({
       }
     ];
 
-    return { rows: this.createRows(1000) };
+    return { rows: this.createRows(10) };
   },
 
   getRandomDate(start, end) {
@@ -83,13 +99,25 @@ const Example = React.createClass({
 
   render() {
     return  (
-      <ReactDataGrid
-        enableCellSelect={true}
-        columns={this._columns}
-        rowGetter={this.rowGetter}
-        rowsCount={this.state.rows.length}
-        minHeight={500}
-        onGridRowsUpdated={this.handleGridRowsUpdated} />);
+      <div>
+        <TableWrapper
+          enableCellSelect={true}
+          columns={this._columns}
+          rowGetter={this.rowGetter}
+          rowsCount={this.state.rows.length}
+          minHeight={500}
+          onGridRowsUpdated={this.handleGridRowsUpdated}
+        />
+        <TableWrapper
+          enableCellSelect={true}
+          columns={this._columns}
+          rowGetter={this.rowGetter}
+          rowsCount={this.state.rows.length}
+          minHeight={500}
+          onGridRowsUpdated={this.handleGridRowsUpdated}
+        />
+      </div>
+    );
   }
 });
 

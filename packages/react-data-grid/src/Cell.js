@@ -70,6 +70,7 @@ const Cell = React.createClass({
 
   componentDidUpdate() {
     this.checkFocus();
+    // console.log('cell meta data', this.props.cellMetaData);
     let dragged = this.props.cellMetaData.dragged;
     if (dragged && dragged.complete === true) {
       this.props.cellMetaData.handleTerminateDrag();

@@ -208,6 +208,7 @@ const Row = React.createClass({
     };
 
     let cells = this.getCells();
+    // console.log('cells', cells);
     return (
       <div {...this.getKnownDivProps() } className={className} style={style} onDragEnter={this.handleDragEnter} >
         {
